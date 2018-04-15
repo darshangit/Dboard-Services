@@ -1,0 +1,17 @@
+spring:
+       datasource:
+                  url: jdbc:postgresql:Jboard
+                  username: postgres
+                  password: dash
+       jpa:
+          generate-ddl: true
+          create: true
+          hibernate:
+                  jdbc:
+                    lob:
+                      non_contextual_creation: true
+
+server:
+    port: 6061
+
+
