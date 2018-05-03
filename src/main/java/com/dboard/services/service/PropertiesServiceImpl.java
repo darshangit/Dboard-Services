@@ -13,6 +13,8 @@ import org.springframework.stereotype.Service;
 import javax.annotation.PostConstruct;
 import java.util.*;
 
+import static com.dboard.services.constants.PropertiesConstant.PROPERTY_TYPE_DELETE;
+
 /**
  * Created by Dash on 4/29/2018.
  */
@@ -61,7 +63,12 @@ public class PropertiesServiceImpl {
 
             for(PropertiesRequest propRequest: propertiesRequestList) {
                 String keyToBeModified = propRequest.getKey();
-                config.setProperty(keyToBeModified, propRequest.getValue());
+
+                if(PROPERTY_TYPE_DELETE.equals(propRequest.getType())){
+                    config.clearProperty(keyToBeModified);
+                }else {
+                    config.setProperty(keyToBeModified, propRequest.getValue());
+                }
             }
             builder.save();
             loadProperties(builder.getConfiguration(), propertiesList);
