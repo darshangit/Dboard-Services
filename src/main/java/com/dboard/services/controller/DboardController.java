@@ -1,7 +1,9 @@
 package com.dboard.services.controller;
 
+import com.dboard.services.entity.LoginEntity;
 import com.dboard.services.request.PropertiesRequest;
 import com.dboard.services.request.ServicePathRequest;
+import com.dboard.services.service.LoginService;
 import com.dboard.services.service.PropertiesServiceImpl;
 import com.dboard.services.service.ServicePathImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +25,9 @@ public class DboardController {
     @Autowired
     private PropertiesServiceImpl propertiesService;
 
+    @Autowired
+    LoginService loginService;
+
     @PostMapping(value="/dboard/restart", consumes = "application/json")
     public ResponseEntity restartService(@RequestBody ServicePathRequest servicePathRequest){
         return servicePath.serviceRestart(servicePathRequest);
@@ -36,5 +41,10 @@ public class DboardController {
     @PostMapping(value="/updateProperties/{serviceName}", consumes = "application/json")
     public ResponseEntity updateProperties(@RequestBody List<PropertiesRequest>  propertiesRequestList, @PathVariable("serviceName") String serviceName ){
         return propertiesService.updateProperties(serviceName,propertiesRequestList);
+    }
+
+    @PostMapping(value="/dboard/login/authenticate", consumes = "application/json")
+    public boolean autheticateLogin(@RequestBody LoginEntity loginEntity){
+        return loginService.authenticateUser(loginEntity);
     }
 }
